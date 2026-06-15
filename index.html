@@ -426,7 +426,7 @@
 
 <!-- FOOTER -->
 <div id="footer">
-  <span>World Cup 2026 Dashboard</span>
+  <span id="api-status" style="color:#b84040;"></span>
   <span id="last-update"></span>
 </div>
 
@@ -463,19 +463,32 @@ function formatDisplayDate(dateStr) {
 
 const TYPE_LABELS = { group:'', r32:'R32', r16:'R16', qf:'QF', sf:'SF', third:'3RD', final:'FINAL' };
 
-// ── FETCH FROM LIVE API ───────────────────────────────────────────────────────
+// ── FETCH FROM LIVE API (with retry) ─────────────────────────────────────────
+async function fetchWithRetry(url, attempts = 3) {
+  for (let i = 0; i < attempts; i++) {
+    try {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return await res.json();
+    } catch (err) {
+      if (i === attempts - 1) throw err;
+      await new Promise(r => setTimeout(r, 2000 * (i + 1))); // 2s, 4s backoff
+    }
+  }
+}
+
 async function fetchLiveData() {
   try {
-    const [gamesRes, groupsRes] = await Promise.all([
-      fetch('https://worldcup26.ir/get/games'),
-      fetch('https://worldcup26.ir/get/groups')
+    const [gamesData, groupsData] = await Promise.all([
+      fetchWithRetry('https://worldcup26.ir/get/games'),
+      fetchWithRetry('https://worldcup26.ir/get/groups')
     ]);
-    const gamesData  = await gamesRes.json();
-    const groupsData = await groupsRes.json();
-    liveGames  = gamesData.games  || [];
+    liveGames  = gamesData.games   || [];
     liveGroups = groupsData.groups || [];
+    document.getElementById('api-status').textContent = '';
   } catch (err) {
-    console.error('Failed to fetch live data:', err);
+    console.error('Failed to fetch live data after retries:', err);
+    document.getElementById('api-status').textContent = '⚠ Data fetch failed — retrying soon';
   }
 }
 
