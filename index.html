@@ -8,17 +8,32 @@
 <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg:       #111e12;
-  --bg2:      #172518;
-  --bg3:      #1c2e1d;
-  --cream:    #f0e8d2;
-  --cream2:   #b8aa8c;
-  --cream3:   #6a7c62;
-  --gold:     #c8a84b;
-  --gold-dim: #6b5a25;
-  --live:     #d45a3a;
-  --border:   #1e2e1f;
+  --bg:        #f2e9d5;
+  --bg2:       #e8dfc4;
+  --bg3:       #ddd3b5;
+  --cream:     #1a2b1b;
+  --cream2:    #2d4a2e;
+  --cream3:    #4a6b4c;
+  --gold:      #956a10;
+  --gold-dim:  #b8891e;
+  --live:      #c4401f;
+  --border:    #cec4a8;
+  --img-border: rgba(0,0,0,0.1);
 }
+body.dark {
+  --bg:        #111e12;
+  --bg2:       #172518;
+  --bg3:       #1c2e1d;
+  --cream:     #f0e8d2;
+  --cream2:    #b8aa8c;
+  --cream3:    #6a7c62;
+  --gold:      #c8a84b;
+  --gold-dim:  #6b5a25;
+  --live:      #d45a3a;
+  --border:    #1e2e1f;
+  --img-border: var(--img-border);
+}
+html, body { transition: background 0.6s ease, color 0.6s ease; }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -177,7 +192,7 @@ html, body {
   width: 52px; height: 34px;
   object-fit: cover;
   border-radius: 4px;
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid var(--img-border);
 }
 .chip-code {
   font-size: 14px;
@@ -270,7 +285,7 @@ html, body {
   width: 34px; height: 34px;
   border-radius: 50%;
   object-fit: cover;
-  border: 1px solid rgba(255,255,255,0.12);
+  border: 1px solid var(--img-border);
 }
 
 .gc-code {
@@ -377,7 +392,7 @@ html, body {
   width: 38px; height: 25px;
   object-fit: cover;
   border-radius: 3px;
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid var(--img-border);
 }
 .nm-name {
   font-size: 18px;
@@ -471,7 +486,7 @@ html, body {
   width: 28px; height: 28px;
   border-radius: 50%;
   object-fit: cover;
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid var(--img-border);
   flex-shrink: 0;
 }
 .up-tname {
@@ -502,6 +517,28 @@ html, body {
   color: var(--cream3);
   letter-spacing: 0.5px;
 }
+
+/* ── THEME TOGGLE ───────────────────────────────────── */
+#theme-btn {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  color: var(--cream3);
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 999;
+  transition: background 0.3s, border-color 0.3s, opacity 0.3s;
+  opacity: 0.55;
+}
+#theme-btn:hover { opacity: 1; }
 </style>
 </head>
 <body>
@@ -541,6 +578,8 @@ html, body {
   <div id="next-match"></div>
   <div id="up-list"></div>
 </div>
+
+<button id="theme-btn" onclick="toggleTheme()" title="Toggle theme">🌙</button>
 
 <script>
 // ── TEAMS ─────────────────────────────────────────────────────────────────────
@@ -605,6 +644,7 @@ const KO = {r32:'R32',r16:'R16',qf:'QF',sf:'SF',third:'3RD',final:'FINAL'};
 // ── STATE ─────────────────────────────────────────────────────────────────────
 let liveGames=[], liveGroups=[];
 let nmItems=[], nmIdx=0, nmTimer=null;
+let sunriseMs=null, sunsetMs=null, manualOverride=false;
 
 // ── HELPERS ───────────────────────────────────────────────────────────────────
 const flag = (iso,r=0) =>
@@ -621,6 +661,21 @@ function friendlyDate(s){
   const [mo,dy,yr]=s.split('/');
   const d=new Date(+yr,+mo-1,+dy);
   return `${DS[d.getDay()]}, ${MS[+mo-1]} ${+dy}`;
+}
+
+// ── THEME ─────────────────────────────────────────────────────────────────────
+function autoTheme(){
+  if(manualOverride) return;
+  const now=Date.now();
+  const isDay=sunriseMs&&sunsetMs ? (now>=sunriseMs && now<sunsetMs) : true;
+  document.body.classList.toggle('dark',!isDay);
+  document.getElementById('theme-btn').textContent=isDay?'🌙':'☀️';
+}
+
+function toggleTheme(){
+  manualOverride=true;
+  const dark=document.body.classList.toggle('dark');
+  document.getElementById('theme-btn').textContent=dark?'☀️':'🌙';
 }
 
 // ── CLOCK ─────────────────────────────────────────────────────────────────────
@@ -641,10 +696,13 @@ async function fetchWeather(){
   try{
     const u='https://api.open-meteo.com/v1/forecast?latitude=37.657&longitude=-77.498'+
       '&current=temperature_2m,apparent_temperature,weather_code,relative_humidity_2m'+
-      '&daily=weather_code,temperature_2m_max,temperature_2m_min'+
+      '&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset'+
       '&timezone=America%2FNew_York&temperature_unit=fahrenheit&wind_speed_unit=mph&forecast_days=4';
     const d=await(await fetch(u)).json();
     const c=d.current, dy=d.daily;
+    if(dy.sunrise&&dy.sunrise[0]) sunriseMs=new Date(dy.sunrise[0]).getTime();
+    if(dy.sunset&&dy.sunset[0])   sunsetMs =new Date(dy.sunset[0]).getTime();
+    autoTheme();
     document.getElementById('w-icon').textContent=WMO_ICON[c.weather_code]||'🌡️';
     document.getElementById('w-temp').textContent=Math.round(c.temperature_2m);
     document.getElementById('w-desc').textContent=WMO_DESC[c.weather_code]||'';
@@ -883,6 +941,7 @@ async function fullRefresh(){
 (async()=>{
   updateClock();
   setInterval(updateClock,1000);
+  setInterval(autoTheme,60000);
   fetchWeather();
   setInterval(fetchWeather,30*60000);
   await fullRefresh();
