@@ -310,31 +310,23 @@ html, body {
 .gc-team.tr { align-self: start; justify-self: end; }
 .gc-team.bl { align-self: end;   justify-self: start; }
 .gc-team.br { align-self: end;   justify-self: end; }
-.gc-team.r1 .gc-flag { box-shadow: 0 0 0 2px var(--gold-dim); }
-
 .gc-flag {
-  width: 34px; height: 34px;
+  width: 58px; height: 58px;
   border-radius: 50%;
   object-fit: cover;
   border: 1px solid var(--img-border);
 }
-
-.gc-code {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  color: var(--cream);
-}
+.gc-team.r1 .gc-flag { box-shadow: 0 0 0 3px var(--gold-dim); }
 
 .gc-pts {
   font-family: 'Abril Fatface', serif;
-  font-size: 16px;
+  font-size: 22px;
   color: var(--gold);
   line-height: 1;
 }
 .gc-pts.zero {
   font-family: 'DM Sans', sans-serif;
-  font-size: 11px;
+  font-size: 15px;
   font-weight: 300;
   color: var(--cream3);
 }
@@ -847,14 +839,14 @@ function renderGroups(){
         const team=TM[t.team_id]; if(!team) return '';
         const pts=+t.pts;
         return `<div class="gc-team ${corners[i]}${i===0?' r1':''}">
-          <img class="gc-flag" src="https://flagcdn.com/w40/${team.iso.toLowerCase()}.png" onerror="this.style.visibility='hidden'">
+          <img class="gc-flag" src="https://flagcdn.com/w80/${team.iso.toLowerCase()}.png" onerror="this.style.visibility='hidden'">
           <span class="gc-pts${pts===0?' zero':''}">${pts||'–'}</span>
         </div>`;
       }).join('');
     } else {
       teamCells=TEAMS.filter(t=>t.g===L).slice(0,4).map((t,i)=>`
         <div class="gc-team ${corners[i]}">
-          <img class="gc-flag" src="https://flagcdn.com/w40/${t.iso.toLowerCase()}.png" onerror="this.style.visibility='hidden'">
+          <img class="gc-flag" src="https://flagcdn.com/w80/${t.iso.toLowerCase()}.png" onerror="this.style.visibility='hidden'">
           <span class="gc-pts zero">–</span>
         </div>`).join('');
     }
