@@ -268,6 +268,8 @@ html, body {
 .gc {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  gap: 8px;
   padding: 10px 12px 12px;
   position: relative;
   /* 4-corner bracket using layered gradients */
@@ -287,17 +289,15 @@ html, body {
   font-family: 'Abril Fatface', serif;
   font-size: 24px;
   color: var(--cream2);
-  margin-bottom: 6px;
   flex-shrink: 0;
   line-height: 1;
 }
 
 /* 4 teams side by side */
 .gc-teams {
-  flex: 1;
   display: flex;
   justify-content: space-around;
-  align-items: flex-end;
+  align-items: center;
 }
 
 .gc-team {
