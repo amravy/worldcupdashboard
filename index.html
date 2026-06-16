@@ -264,15 +264,13 @@ html, body {
   transition: opacity 0.4s ease;
 }
 
-/* Corner-bracket card — no full border */
+/* Corner-bracket card — 2×2 grid with watermark letter */
 .gc {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 8px;
-  padding: 10px 12px 12px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  padding: 14px;
   position: relative;
-  /* 4-corner bracket using layered gradients */
   background:
     linear-gradient(var(--cream3),var(--cream3)) 0 0 / 14px 1.5px no-repeat,
     linear-gradient(var(--cream3),var(--cream3)) 0 0 / 1.5px 14px no-repeat,
@@ -285,19 +283,20 @@ html, body {
     transparent;
 }
 
-.gc-head {
-  font-family: 'Abril Fatface', serif;
-  font-size: 24px;
-  color: var(--cream2);
-  flex-shrink: 0;
-  line-height: 1;
-}
-
-/* 4 teams side by side */
-.gc-teams {
+/* Big watermark letter in the center */
+.gc-letter {
+  position: absolute;
+  inset: 0;
   display: flex;
-  justify-content: space-around;
   align-items: center;
+  justify-content: center;
+  font-family: 'Abril Fatface', serif;
+  font-size: 96px;
+  color: var(--cream);
+  opacity: 0.08;
+  pointer-events: none;
+  line-height: 1;
+  user-select: none;
 }
 
 .gc-team {
@@ -305,7 +304,12 @@ html, body {
   flex-direction: column;
   align-items: center;
   gap: 4px;
+  z-index: 1;
 }
+.gc-team.tl { align-self: start; justify-self: start; }
+.gc-team.tr { align-self: start; justify-self: end; }
+.gc-team.bl { align-self: end;   justify-self: start; }
+.gc-team.br { align-self: end;   justify-self: end; }
 .gc-team.r1 .gc-flag { box-shadow: 0 0 0 2px var(--gold-dim); }
 
 .gc-flag {
@@ -836,24 +840,25 @@ function renderGroups(){
   const gm=Object.fromEntries(liveGroups.map(g=>[g.name,g]));
   document.getElementById('groups-grid').innerHTML=letters.map(L=>{
     const g=gm[L];
+    const corners=['tl','tr','bl','br'];
     let teamCells;
     if(g){
-      teamCells=[...g.teams].sort((a,b)=>(+b.pts-+a.pts)||(+b.gd-+a.gd)||(+b.gf-+a.gf)).map((t,i)=>{
+      teamCells=[...g.teams].sort((a,b)=>(+b.pts-+a.pts)||(+b.gd-+a.gd)||(+b.gf-+a.gf)).slice(0,4).map((t,i)=>{
         const team=TM[t.team_id]; if(!team) return '';
         const pts=+t.pts;
-        return `<div class="gc-team${i<2?' r'+(i+1):''}">
+        return `<div class="gc-team ${corners[i]}${i===0?' r1':''}">
           <img class="gc-flag" src="https://flagcdn.com/w40/${team.iso.toLowerCase()}.png" onerror="this.style.visibility='hidden'">
           <span class="gc-pts${pts===0?' zero':''}">${pts||'–'}</span>
         </div>`;
       }).join('');
     } else {
-      teamCells=TEAMS.filter(t=>t.g===L).map(t=>`
-        <div class="gc-team">
+      teamCells=TEAMS.filter(t=>t.g===L).slice(0,4).map((t,i)=>`
+        <div class="gc-team ${corners[i]}">
           <img class="gc-flag" src="https://flagcdn.com/w40/${t.iso.toLowerCase()}.png" onerror="this.style.visibility='hidden'">
           <span class="gc-pts zero">–</span>
         </div>`).join('');
     }
-    return `<div class="gc"><div class="gc-head">${L}</div><div class="gc-teams">${teamCells}</div></div>`;
+    return `<div class="gc"><div class="gc-letter">${L}</div>${teamCells}</div>`;
   }).join('');
 }
 
