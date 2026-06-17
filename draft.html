@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080">
+<title>World Cup 2026 — Draft</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:        #f2e9d5;
+  --bg2:       #e8dfc4;
+  --bg3:       #ddd3b5;
+  --cream:     #1a2b1b;
+  --cream2:    #2d4a2e;
+  --cream3:    #4a6b4c;
+  --gold:      #956a10;
+  --gold-dim:  #b8891e;
+  --live:      #c4401f;
+  --border:    #cec4a8;
+  --img-bd:    rgba(0,0,0,0.1);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  width: 1080px; height: 1920px; overflow: hidden;
+  background: var(--bg); color: var(--cream);
+  font-family: 'DM Sans', system-ui, sans-serif;
+  display: flex; flex-direction: column;
+}
+
+.eyebrow {
+  font-size: 12px; font-weight: 700; letter-spacing: 3.5px;
+  color: var(--cream2); text-transform: uppercase; flex-shrink: 0;
+}
+
+/* ── HEADER (220px) ─────────────────────────────────── */
+#header {
+  height: 220px; flex-shrink: 0;
+  display: flex; align-items: center;
+  padding: 0 36px;
+  border-bottom: 1px solid var(--border);
+}
+#clock-block { flex: 1; }
+#dateline {
+  font-size: 16px; font-weight: 600; letter-spacing: 2.5px;
+  color: var(--cream2); text-transform: uppercase; margin-bottom: 4px;
+}
+#clock {
+  font-family: 'Abril Fatface', serif; font-size: 128px;
+  line-height: 1; color: var(--cream); letter-spacing: -3px;
+}
+#seconds {
+  font-family: 'DM Sans', sans-serif; font-size: 42px; font-weight: 300;
+  color: var(--cream3); vertical-align: super; margin-left: 4px;
+}
+#weather-block {
+  width: 280px; display: flex; flex-direction: column;
+  align-items: flex-end; gap: 5px;
+}
+#w-row1 { display: flex; align-items: flex-end; gap: 8px; }
+#w-icon { font-size: 54px; line-height: 1; }
+#w-temp { font-family: 'Abril Fatface', serif; font-size: 72px; color: var(--cream); line-height: 1; }
+#w-unit { font-size: 26px; font-weight: 400; color: var(--cream3); margin-bottom: 9px; }
+#w-desc { font-size: 16px; font-weight: 600; letter-spacing: 1px; color: var(--cream2); }
+#w-feels { font-size: 13px; font-weight: 500; color: var(--cream3); }
+#w-forecast {
+  display: flex; gap: 20px;
+  padding-top: 10px; border-top: 1px solid var(--border); margin-top: 4px;
+}
+.fc-day { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+.fc-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; color: var(--cream3); text-transform: uppercase; }
+.fc-icon { font-size: 22px; line-height: 1; }
+.fc-range { font-size: 12px; font-weight: 500; color: var(--cream3); white-space: nowrap; }
+
+/* ── TODAY (540px) ──────────────────────────────────── */
+#today-section {
+  height: 540px; flex-shrink: 0;
+  border-bottom: 1px solid var(--border);
+  padding: 18px 28px 20px;
+  display: flex; flex-direction: column; gap: 14px;
+}
+#today-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 12px;
+}
+
+.mc {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 14px 18px;
+  gap: 10px;
+}
+.mc.live { border-color: var(--live); }
+
+.mc-badge {
+  font-size: 9px; font-weight: 700; letter-spacing: 2px;
+  color: var(--cream3); text-transform: uppercase; align-self: flex-start;
+}
+.mc-badge.live { color: var(--live); }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+.mc-badge.live { animation: blink 1.8s ease-in-out infinite; }
+
+.mc-teams {
+  display: flex; align-items: center; width: 100%;
+}
+.mc-team {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; gap: 8px;
+}
+.mc-team img {
+  width: 88px; height: 58px; object-fit: cover;
+  border-radius: 6px; border: 1px solid var(--img-bd);
+}
+.mc-name {
+  font-size: 17px; font-weight: 600; color: var(--cream);
+  text-align: center; line-height: 1.2;
+}
+.mc-mid {
+  width: 110px; flex-shrink: 0; text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+}
+.mc-score {
+  font-family: 'Abril Fatface', serif; font-size: 54px;
+  color: var(--gold); line-height: 1;
+}
+.mc-time {
+  font-family: 'Abril Fatface', serif; font-size: 34px;
+  color: var(--gold); line-height: 1;
+}
+.mc-ampm {
+  font-size: 13px; color: var(--cream3); letter-spacing: 1px;
+}
+
+/* ── GROUPS (280px) ─────────────────────────────────── */
+#groups-section {
+  height: 280px; flex-shrink: 0;
+  padding: 14px 22px;
+  border-bottom: 1px solid var(--border);
+  display: flex; flex-direction: column; gap: 10px;
+}
+#groups-header {
+  display: flex; align-items: center;
+}
+#groups-grid {
+  flex: 1;
+  display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px;
+}
+
+/* corner-bracket card */
+.gc {
+  display: flex; flex-direction: column; gap: 6px;
+  padding: 10px 12px;
+  background:
+    linear-gradient(var(--cream3),var(--cream3)) 0 0 / 14px 1.5px no-repeat,
+    linear-gradient(var(--cream3),var(--cream3)) 0 0 / 1.5px 14px no-repeat,
+    linear-gradient(var(--cream3),var(--cream3)) 100% 0 / 14px 1.5px no-repeat,
+    linear-gradient(var(--cream3),var(--cream3)) 100% 0 / 1.5px 14px no-repeat,
+    linear-gradient(var(--cream3),var(--cream3)) 0 100% / 14px 1.5px no-repeat,
+    linear-gradient(var(--cream3),var(--cream3)) 0 100% / 1.5px 14px no-repeat,
+    linear-gradient(var(--cream3),var(--cream3)) 100% 100% / 14px 1.5px no-repeat,
+    linear-gradient(var(--cream3),var(--cream3)) 100% 100% / 1.5px 14px no-repeat,
+    transparent;
+}
+.gc-head {
+  font-size: 8px; font-weight: 700; letter-spacing: 3px;
+  color: var(--cream3); text-transform: uppercase;
+}
+/* 4 teams in a single horizontal row */
+.gc-flags {
+  flex: 1;
+  display: flex; justify-content: space-around; align-items: center;
+}
+.gc-flag-cell {
+  display: flex; flex-direction: column; align-items: center; gap: 5px;
+}
+.gc-flag-img {
+  width: 54px; height: 54px; border-radius: 50%;
+  object-fit: cover; border: 1px solid var(--img-bd);
+}
+.gc-flag-cell.top .gc-flag-img { box-shadow: 0 0 0 2.5px var(--gold-dim); }
+.gc-pts {
+  font-size: 12px; font-weight: 600; color: var(--cream3); line-height: 1;
+}
+.gc-pts.hi {
+  font-family: 'Abril Fatface', serif; font-size: 15px; color: var(--gold);
+}
+
+/* — Style A: ghost letter behind flags — */
+.gc { position: relative; overflow: hidden; }
+.gc-ghost {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -45%);
+  font-family: 'Abril Fatface', serif; font-size: 100px;
+  color: var(--cream3); opacity: 0.13; line-height: 1;
+  pointer-events: none; user-select: none; z-index: 0;
+}
+.gc-head, .gc-flags { position: relative; z-index: 1; }
+
+/* — Style B: bold Abril Fatface letter as heading — */
+.gc.style-b .gc-head {
+  font-family: 'Abril Fatface', serif; font-size: 26px;
+  letter-spacing: 0; color: var(--cream); text-transform: none;
+}
+
+/* — Style C: filled circle stamp top-left — */
+.gc-stamp {
+  position: absolute; top: 10px; left: 10px; z-index: 2;
+  width: 30px; height: 30px; border-radius: 50%;
+  background: var(--cream3);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Abril Fatface', serif; font-size: 15px;
+  color: var(--bg); line-height: 1;
+}
+
+/* — Style D: vertical spine on the left — */
+.gc.style-d { flex-direction: row; gap: 6px; padding-left: 10px; }
+.gc-spine {
+  writing-mode: vertical-lr; transform: rotate(180deg);
+  font-family: 'Abril Fatface', serif; font-size: 17px;
+  color: var(--cream3); letter-spacing: 4px;
+  flex-shrink: 0; align-self: center;
+}
+.gc.style-d .gc-flags { flex: 1; align-self: center; }
+
+/* — Style E: no top label, group letter centered at bottom — */
+.gc.style-e { justify-content: flex-end; gap: 4px; }
+.gc-caption {
+  font-size: 9px; font-weight: 700; letter-spacing: 4px;
+  color: var(--cream3); text-transform: uppercase; text-align: center;
+  padding-top: 6px; border-top: 1px solid var(--border);
+}
+
+/* style labels at bottom for comparison */
+.gc-style-tag {
+  font-size: 8px; font-weight: 600; letter-spacing: 2px;
+  color: var(--cream3); opacity: 0.5; text-align: center;
+  text-transform: uppercase; position: absolute; bottom: 8px; left: 0; right: 0;
+}
+
+/* ── UPCOMING (flex:1 ≈ 900px) ──────────────────────── */
+#upcoming-section {
+  flex: 1;
+  display: flex; flex-direction: column;
+  padding: 18px 28px 24px; gap: 14px;
+  overflow: hidden;
+}
+
+/* featured next match */
+#up-featured {
+  flex-shrink: 0;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 24px;
+  display: flex; align-items: center;
+}
+.uf-team {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; gap: 8px;
+}
+.uf-team img {
+  width: 110px; height: 74px; object-fit: cover;
+  border-radius: 8px; border: 1px solid var(--img-bd);
+}
+.uf-name {
+  font-size: 22px; font-weight: 600; color: var(--cream);
+  text-align: center; line-height: 1.2;
+}
+.uf-center {
+  width: 160px; flex-shrink: 0;
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+}
+.uf-label {
+  font-size: 8px; font-weight: 700; letter-spacing: 3px;
+  color: var(--cream3); text-transform: uppercase;
+}
+.uf-time {
+  font-family: 'Abril Fatface', serif; font-size: 52px;
+  color: var(--gold); line-height: 1;
+}
+.uf-ampm { font-size: 13px; color: var(--cream3); letter-spacing: 1.5px; }
+.uf-day  { font-size: 11px; color: var(--cream3); margin-top: 2px; }
+
+/* departure-board list */
+#up-list { flex: 1; overflow: hidden; display: flex; flex-direction: column; }
+
+.ul-day-head {
+  font-size: 9px; font-weight: 700; letter-spacing: 3px;
+  color: var(--cream3); text-transform: uppercase;
+  padding: 14px 0 6px; flex-shrink: 0;
+}
+.ul-day-head:first-child { padding-top: 2px; }
+
+.ul-row {
+  flex-shrink: 0;
+  display: flex; align-items: center; gap: 14px;
+  padding: 10px 4px;
+}
+.ul-flag {
+  width: 34px; height: 34px; border-radius: 50%;
+  object-fit: cover; border: 1px solid var(--img-bd); flex-shrink: 0;
+}
+.ul-teams {
+  flex: 1; display: flex; align-items: center; gap: 10px; min-width: 0;
+}
+.ul-name {
+  font-size: 22px; font-weight: 500; color: var(--cream);
+  white-space: nowrap;
+}
+.ul-vs { font-size: 12px; color: var(--cream3); letter-spacing: 1px; flex-shrink: 0; }
+.ul-time {
+  font-family: 'Abril Fatface', serif; font-size: 22px;
+  color: var(--gold); flex-shrink: 0; width: 88px; text-align: right;
+}
+.ul-badge {
+  font-size: 8px; font-weight: 700; letter-spacing: 1.5px;
+  color: var(--cream3); width: 24px; text-align: center;
+  flex-shrink: 0; opacity: 0.6;
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div id="header">
+  <div id="clock-block">
+    <div id="dateline">Monday  ·  Jun 16</div>
+    <div id="clock">14:22<span id="seconds">08</span></div>
+  </div>
+  <div id="weather-block">
+    <div id="w-row1">
+      <span id="w-icon">⛅</span>
+      <span id="w-temp">81</span><span id="w-unit">°</span>
+    </div>
+    <div id="w-desc">Partly Cloudy</div>
+    <div id="w-feels">Feels like 84°</div>
+    <div id="w-forecast">
+      <div class="fc-day"><span class="fc-label">Tue</span><span class="fc-icon">🌧️</span><span class="fc-range">72·86°</span></div>
+      <div class="fc-day"><span class="fc-label">Wed</span><span class="fc-icon">☀️</span><span class="fc-range">68·89°</span></div>
+      <div class="fc-day"><span class="fc-label">Thu</span><span class="fc-icon">⛈️</span><span class="fc-range">65·77°</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- TODAY'S MATCHES -->
+<div id="today-section">
+  <div class="eyebrow">Today's Matches</div>
+  <div id="today-grid">
+
+    <div class="mc live">
+      <span class="mc-badge live">● Live · 63'</span>
+      <div class="mc-teams">
+        <div class="mc-team">
+          <img src="https://flagcdn.com/w160/br.png">
+          <span class="mc-name">Brazil</span>
+        </div>
+        <div class="mc-mid"><span class="mc-score">2–1</span></div>
+        <div class="mc-team">
+          <img src="https://flagcdn.com/w160/ma.png">
+          <span class="mc-name">Morocco</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="mc">
+      <span class="mc-badge">FT · Group D</span>
+      <div class="mc-teams">
+        <div class="mc-team">
+          <img src="https://flagcdn.com/w160/us.png">
+          <span class="mc-name">USA</span>
+        </div>
+        <div class="mc-mid"><span class="mc-score">1–0</span></div>
+        <div class="mc-team">
+          <img src="https://flagcdn.com/w160/tr.png">
+          <span class="mc-name">Turkey</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="mc">
+      <span class="mc-badge">Group A</span>
+      <div class="mc-teams">
+        <div class="mc-team">
+          <img src="https://flagcdn.com/w160/mx.png">
+          <span class="mc-name">Mexico</span>
+        </div>
+        <div class="mc-mid">
+          <span class="mc-time">3:00</span>
+          <span class="mc-ampm">pm</span>
+        </div>
+        <div class="mc-team">
+          <img src="https://flagcdn.com/w160/kr.png">
+          <span class="mc-name">S. Korea</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="mc">
+      <span class="mc-badge">Group F</span>
+      <div class="mc-teams">
+        <div class="mc-team">
+          <img src="https://flagcdn.com/w160/nl.png">
+          <span class="mc-name">Netherlands</span>
+        </div>
+        <div class="mc-mid">
+          <span class="mc-time">6:00</span>
+          <span class="mc-ampm">pm</span>
+        </div>
+        <div class="mc-team">
+          <img src="https://flagcdn.com/w160/jp.png">
+          <span class="mc-name">Japan</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- GROUP STAGE -->
+<div id="groups-section">
+  <div id="groups-header">
+    <div class="eyebrow">Group Stage</div>
+  </div>
+  <div id="groups-grid">
+
+    <!-- A: Ghost letter -->
+    <div class="gc">
+      <span class="gc-ghost">A</span>
+      <div class="gc-flags">
+        <div class="gc-flag-cell top"><img class="gc-flag-img" src="https://flagcdn.com/w80/mx.png"><span class="gc-pts hi">6</span></div>
+        <div class="gc-flag-cell top"><img class="gc-flag-img" src="https://flagcdn.com/w80/kr.png"><span class="gc-pts hi">4</span></div>
+        <div class="gc-flag-cell"><img class="gc-flag-img" src="https://flagcdn.com/w80/za.png"><span class="gc-pts">1</span></div>
+        <div class="gc-flag-cell"><img class="gc-flag-img" src="https://flagcdn.com/w80/cz.png"><span class="gc-pts">–</span></div>
+      </div>
+      <span class="gc-style-tag">Ghost</span>
+    </div>
+
+    <!-- B: Bold letter heading -->
+    <div class="gc style-b">
+      <div class="gc-head">A</div>
+      <div class="gc-flags">
+        <div class="gc-flag-cell top"><img class="gc-flag-img" src="https://flagcdn.com/w80/mx.png"><span class="gc-pts hi">6</span></div>
+        <div class="gc-flag-cell top"><img class="gc-flag-img" src="https://flagcdn.com/w80/kr.png"><span class="gc-pts hi">4</span></div>
+        <div class="gc-flag-cell"><img class="gc-flag-img" src="https://flagcdn.com/w80/za.png"><span class="gc-pts">1</span></div>
+        <div class="gc-flag-cell"><img class="gc-flag-img" src="https://flagcdn.com/w80/cz.png"><span class="gc-pts">–</span></div>
+      </div>
+      <span class="gc-style-tag">Bold</span>
+    </div>
+
+    <!-- C: Stamp badge -->
+    <div class="gc style-c">
+      <div class="gc-stamp">A</div>
+      <div class="gc-flags">
+        <div class="gc-flag-cell top"><img class="gc-flag-img" src="https://flagcdn.com/w80/mx.png"><span class="gc-pts hi">6</span></div>
+        <div class="gc-flag-cell top"><img class="gc-flag-img" src="https://flagcdn.com/w80/kr.png"><span class="gc-pts hi">4</span></div>
+        <div class="gc-flag-cell"><img class="gc-flag-img" src="https://flagcdn.com/w80/za.png"><span class="gc-pts">1</span></div>
+        <div class="gc-flag-cell"><img class="gc-flag-img" src="https://flagcdn.com/w80/cz.png"><span class="gc-pts">–</span></div>
+      </div>
+      <span class="gc-style-tag">Stamp</span>
+    </div>
+
+    <!-- D: Vertical spine -->
+    <div class="gc style-d">
+      <div class="gc-spine">A</div>
+      <div class="gc-flags">
+        <div class="gc-flag-cell top"><img class="gc-flag-img" src="https://flagcdn.com/w80/mx.png"><span class="gc-pts hi">6</span></div>
+        <div class="gc-flag-cell top"><img class="gc-flag-img" src="https://flagcdn.com/w80/kr.png"><span class="gc-pts hi">4</span></div>
+        <div class="gc-flag-cell"><img class="gc-flag-img" src="https://flagcdn.com/w80/za.png"><span class="gc-pts">1</span></div>
+        <div class="gc-flag-cell"><img class="gc-flag-img" src="https://flagcdn.com/w80/cz.png"><span class="gc-pts">–</span></div>
+      </div>
+      <span class="gc-style-tag">Spine</span>
+    </div>
+
+    <!-- E: Caption at bottom -->
+    <div class="gc style-e">
+      <div class="gc-flags">
+        <div class="gc-flag-cell top"><img class="gc-flag-img" src="https://flagcdn.com/w80/mx.png"><span class="gc-pts hi">6</span></div>
+        <div class="gc-flag-cell top"><img class="gc-flag-img" src="https://flagcdn.com/w80/kr.png"><span class="gc-pts hi">4</span></div>
+        <div class="gc-flag-cell"><img class="gc-flag-img" src="https://flagcdn.com/w80/za.png"><span class="gc-pts">1</span></div>
+        <div class="gc-flag-cell"><img class="gc-flag-img" src="https://flagcdn.com/w80/cz.png"><span class="gc-pts">–</span></div>
+      </div>
+      <div class="gc-caption">Group A</div>
+      <span class="gc-style-tag">Caption</span>
+    </div>
+
+  </div>
+</div>
+
+<!-- UPCOMING -->
+<div id="upcoming-section">
+  <div class="eyebrow">Upcoming</div>
+  <div id="up-featured"></div>
+  <div id="up-list"></div>
+</div>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────────────
+const GROUPS = {
+  A:[{iso:'mx',pts:6},{iso:'kr',pts:4},{iso:'za',pts:1},{iso:'cz',pts:0}],
+  B:[{iso:'ca',pts:6},{iso:'ch',pts:3},{iso:'ba',pts:3},{iso:'qa',pts:0}],
+  C:[{iso:'br',pts:7},{iso:'ma',pts:4},{iso:'gb-sct',pts:1},{iso:'ht',pts:0}],
+  D:[{iso:'us',pts:5},{iso:'au',pts:4},{iso:'tr',pts:3},{iso:'py',pts:0}],
+  E:[{iso:'de',pts:9},{iso:'ci',pts:4},{iso:'ec',pts:1},{iso:'cw',pts:0}],
+  F:[{iso:'jp',pts:6},{iso:'nl',pts:4},{iso:'se',pts:3},{iso:'tn',pts:0}],
+  G:[{iso:'be',pts:6},{iso:'ir',pts:4},{iso:'eg',pts:1},{iso:'nz',pts:0}],
+  H:[{iso:'es',pts:7},{iso:'uy',pts:4},{iso:'sa',pts:3},{iso:'cv',pts:0}],
+  I:[{iso:'fr',pts:6},{iso:'sn',pts:6},{iso:'no',pts:1},{iso:'iq',pts:0}],
+  J:[{iso:'ar',pts:9},{iso:'at',pts:3},{iso:'dz',pts:3},{iso:'jo',pts:0}],
+  K:[{iso:'pt',pts:6},{iso:'co',pts:4},{iso:'cd',pts:1},{iso:'uz',pts:0}],
+  L:[{iso:'gb-eng',pts:6},{iso:'hr',pts:4},{iso:'gh',pts:1},{iso:'pa',pts:0}],
+};
+
+const SETS=[['A','B','C'],['D','E','F'],['G','H','I'],['J','K','L']];
+
+const UP=[
+  {home:'Germany',  hIso:'de',     away:'Ecuador',     aIso:'ec',     time:'3:00',ampm:'PM',day:'Wed, Jun 17',stage:'Group E'},
+  {home:'Argentina',hIso:'ar',     away:'Jordan',      aIso:'jo',     time:'9:00',ampm:'PM',day:'Wed, Jun 17',stage:'Group J'},
+  {home:'Spain',    hIso:'es',     away:'Saudi Arabia',aIso:'sa',     time:'3:00',ampm:'PM',day:'Thu, Jun 18',stage:'Group H'},
+  {home:'France',   hIso:'fr',     away:'Norway',      aIso:'no',     time:'6:00',ampm:'PM',day:'Thu, Jun 18',stage:'Group I'},
+  {home:'England',  hIso:'gb-eng', away:'Ghana',       aIso:'gh',     time:'12:00',ampm:'PM',day:'Fri, Jun 19',stage:'Group L'},
+  {home:'Portugal', hIso:'pt',     away:'Colombia',    aIso:'co',     time:'3:00',ampm:'PM',day:'Fri, Jun 19',stage:'Group K'},
+  {home:'Brazil',   hIso:'br',     away:'Scotland',    aIso:'gb-sct', time:'6:00',ampm:'PM',day:'Sat, Jun 20',stage:'Group C'},
+  {home:'Mexico',   hIso:'mx',     away:'Czech Rep.',  aIso:'cz',     time:'9:00',ampm:'PM',day:'Sat, Jun 20',stage:'Group A'},
+];
+
+// ── CLOCK ─────────────────────────────────────────────────────────────────────
+const MS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const DS=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+function tick(){
+  const n=new Date();
+  document.getElementById('clock').firstChild.nodeValue=
+    `${String(n.getHours()).padStart(2,'0')}:${String(n.getMinutes()).padStart(2,'0')}`;
+  document.getElementById('seconds').textContent=String(n.getSeconds()).padStart(2,'0');
+  document.getElementById('dateline').textContent=`${DS[n.getDay()]}  ·  ${MS[n.getMonth()]} ${n.getDate()}`;
+}
+tick(); setInterval(tick,1000);
+
+// groups are static HTML for style comparison
+
+// ── UPCOMING ──────────────────────────────────────────────────────────────────
+// Featured: the very next match
+(function(){
+  const m=UP[0];
+  document.getElementById('up-featured').innerHTML=`
+    <div class="uf-team">
+      <img src="https://flagcdn.com/w160/${m.hIso}.png" onerror="this.style.visibility='hidden'">
+      <span class="uf-name">${m.home}</span>
+    </div>
+    <div class="uf-center">
+      <span class="uf-label">Next Up</span>
+      <span class="uf-time">${m.time}</span>
+      <span class="uf-ampm">${m.ampm}</span>
+      <span class="uf-day">${m.day}</span>
+    </div>
+    <div class="uf-team">
+      <img src="https://flagcdn.com/w160/${m.aIso}.png" onerror="this.style.visibility='hidden'">
+      <span class="uf-name">${m.away}</span>
+    </div>`;
+})();
+
+// List: the rest grouped by day
+(function(){
+  const byDay={};
+  UP.slice(1).forEach(m=>{ (byDay[m.day]||(byDay[m.day]=[])).push(m); });
+  document.getElementById('up-list').innerHTML=Object.keys(byDay).map(day=>{
+    const rows=byDay[day].map(m=>`
+      <div class="ul-row">
+        <span class="ul-badge">${m.stage.replace('Group ','G')}</span>
+        <div class="ul-teams">
+          <img class="ul-flag" src="https://flagcdn.com/w80/${m.hIso}.png" onerror="this.style.visibility='hidden'">
+          <span class="ul-name">${m.home}</span>
+          <span class="ul-vs">vs</span>
+          <img class="ul-flag" src="https://flagcdn.com/w80/${m.aIso}.png" onerror="this.style.visibility='hidden'">
+          <span class="ul-name">${m.away}</span>
+        </div>
+        <span class="ul-time">${m.time}${m.ampm.toLowerCase()}</span>
+      </div>`).join('');
+    return `<div class="ul-day-head">${day}</div>${rows}`;
+  }).join('');
+})();
+</script>
+</body>
+</html>
