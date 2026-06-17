@@ -693,11 +693,57 @@ function todayStr(){
 }
 const mDate = m => m.local_date.split(' ')[0];
 const mTime = m => m.local_date.split(' ')[1];
-function fmtTime(t){
-  if(!t) return {num:'—',ampm:''};
-  const [hh,mm]=t.split(':');
-  const h=+hh, ap=h>=12?'pm':'am';
-  return {num:`${h%12||12}:${mm}`,ampm:ap};
+
+// ── TIMEZONE CONVERSION ───────────────────────────────────────────────────────
+const USER_TZ = Intl.DateTimeFormat().resolvedOptions().timeZone;
+const STADIUM_TZ = {
+  '1': 'America/Mexico_City',  // Estadio Azteca
+  '2': 'America/Mexico_City',  // Estadio Akron
+  '3': 'America/Monterrey',    // Estadio BBVA
+  '4': 'America/Chicago',      // AT&T Stadium Dallas
+  '5': 'America/Chicago',      // NRG Stadium Houston
+  '6': 'America/Chicago',      // GEHA Field Kansas City
+  '7': 'America/New_York',     // Mercedes-Benz Stadium Atlanta
+  '8': 'America/New_York',     // Hard Rock Stadium Miami
+  '9': 'America/New_York',     // Gillette Stadium Boston
+  '10': 'America/New_York',    // Lincoln Financial Field Philadelphia
+  '11': 'America/New_York',    // MetLife Stadium NYC
+  '12': 'America/Toronto',     // BMO Field Toronto
+  '13': 'America/Vancouver',   // BC Place Vancouver
+  '14': 'America/Los_Angeles', // Lumen Field Seattle
+  '15': 'America/Los_Angeles', // Levi's Stadium San Francisco
+  '16': 'America/Los_Angeles', // SoFi Stadium Los Angeles
+};
+
+function venueToUser(localDateStr, stadiumId) {
+  if (!localDateStr) return null;
+  const tz = STADIUM_TZ[String(stadiumId)] || 'America/New_York';
+  const [datePart, timePart] = localDateStr.split(' ');
+  if (!datePart || !timePart) return null;
+  const [mo, dy, yr] = datePart.split('/');
+  const [hh, mm] = timePart.split(':');
+  // Treat venue local time as UTC, measure the offset, then correct
+  const guessUTC = new Date(`${yr}-${mo}-${dy}T${hh}:${mm}:00Z`);
+  const vp = {};
+  new Intl.DateTimeFormat('en-US', {
+    timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit',
+    hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+  }).formatToParts(guessUTC).forEach(({type, value}) => vp[type] = value);
+  const venueAsUTC = new Date(`${vp.year}-${vp.month}-${vp.day}T${vp.hour}:${vp.minute}:${vp.second}Z`);
+  const actualUTC = new Date(guessUTC.getTime() + (guessUTC.getTime() - venueAsUTC.getTime()));
+  return actualUTC.toLocaleString('en-US', {
+    timeZone: USER_TZ, hour: '2-digit', minute: '2-digit', hour12: false
+  }); // "HH:MM"
+}
+
+function fmtTime(localDateStr, stadiumId) {
+  const raw = stadiumId
+    ? venueToUser(localDateStr, stadiumId)
+    : (localDateStr ? localDateStr.split(' ')[1] : null);
+  if (!raw) return {num:'—', ampm:''};
+  const [hh, mm] = raw.split(':');
+  const h = +hh % 24;
+  return {num:`${h%12||12}:${mm}`, ampm: h>=12?'pm':'am'};
 }
 
 function friendlyDate(s){
@@ -811,7 +857,7 @@ function renderToday(){
     if(done||live){
       mid=`<span class="chip-score">${m.home_score}–${m.away_score}</span>`;
     } else {
-      const {num,ampm}=fmtTime(mTime(m));
+      const {num,ampm}=fmtTime(m.local_date, m.stadium_id);
       mid=`<div class="chip-score vs" style="min-width:110px"><span class="chip-time">${num}</span><span class="chip-ampm">${ampm}</span></div>`;
     }
     if(isG&&h&&a) return `
@@ -900,7 +946,7 @@ function showNmSlide(idx){
   const badge=KO[m.type]?`<span class="nm-badge">${KO[m.type]}</span>`:`<span class="nm-badge">GRP ${m.group}</span>`;
   const centerHtml=(done||live)
     ?`<span class="nm-score">${m.home_score}–${m.away_score}</span>`
-    :`<span class="nm-time">${mTime(m)}</span>`;
+    :(()=>{const {num,ampm}=fmtTime(m.local_date,m.stadium_id);return `<span class="nm-time">${num}<span style="font-size:1.5rem;color:var(--cream3);margin-left:0.2rem">${ampm}</span></span>`;})();
 
   let teamsHtml;
   if(isG&&h&&a){
@@ -979,7 +1025,7 @@ function renderUpList(){
 
       const right=done
         ?`<span class="up-right">${m.home_score}–${m.away_score}</span>`
-        :`<span class="up-right time">${mTime(m)}</span>`;
+        :(()=>{const {num,ampm}=fmtTime(m.local_date,m.stadium_id);return `<span class="up-right time">${num}${ampm}</span>`;})();
 
       return `<div class="up-row">${badgeHtml}${teamsHtml}${right}</div>`;
     }).join('');
