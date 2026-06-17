@@ -33,6 +33,7 @@ body.dark {
   --border:    #1e2e1f;
   --img-border: rgba(255,255,255,0.1);
 }
+html { font-size: 10px; }
 html, body { transition: background 0.6s ease, color 0.6s ease; }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -50,10 +51,10 @@ html, body {
 
 /* ── HEADER ────────────────────────────────────────── */
 #header {
-  height: 220px;
+  height: 22rem;
   display: flex;
   align-items: center;
-  padding: 0 36px;
+  padding: 0 3.6rem;
   border-bottom: 1px solid var(--border);
   flex-shrink: 0;
 }
@@ -61,79 +62,79 @@ html, body {
 #clock-block { flex: 1; }
 
 #dateline {
-  font-size: 16px;
+  font-size: 1.6rem;
   font-weight: 600;
-  letter-spacing: 2.5px;
+  letter-spacing: 0.25rem;
   color: var(--cream2);
   text-transform: uppercase;
-  margin-bottom: 4px;
+  margin-bottom: 0.4rem;
 }
 
 #clock {
   font-family: 'Abril Fatface', serif;
-  font-size: 128px;
+  font-size: 12.8rem;
   line-height: 1;
   color: var(--cream);
-  letter-spacing: -3px;
+  letter-spacing: -0.3rem;
 }
 
 #seconds {
   font-family: 'DM Sans', sans-serif;
-  font-size: 42px;
+  font-size: 4.2rem;
   font-weight: 300;
   color: var(--cream3);
   letter-spacing: 0;
   vertical-align: super;
-  margin-left: 4px;
+  margin-left: 0.4rem;
 }
 
 #weather-block {
-  width: 282px;
+  width: 28.2rem;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 5px;
+  gap: 0.5rem;
 }
 
-#w-row1 { display: flex; align-items: flex-end; gap: 8px; }
-#w-icon { font-size: 54px; line-height: 1; }
+#w-row1 { display: flex; align-items: flex-end; gap: 0.8rem; }
+#w-icon { font-size: 5.4rem; line-height: 1; }
 #w-temp {
   font-family: 'Abril Fatface', serif;
-  font-size: 72px;
+  font-size: 7.2rem;
   color: var(--cream);
   line-height: 1;
 }
-#w-unit { font-size: 26px; font-weight: 400; color: var(--cream3); margin-bottom: 9px; }
-#w-desc { font-size: 16px; font-weight: 600; letter-spacing: 1px; color: var(--cream2); }
-#w-feels { font-size: 13px; font-weight: 500; color: var(--cream3); }
+#w-unit { font-size: 2.6rem; font-weight: 400; color: var(--cream3); margin-bottom: 0.9rem; }
+#w-desc { font-size: 1.6rem; font-weight: 600; letter-spacing: 0.1rem; color: var(--cream2); }
+#w-feels { font-size: 1.3rem; font-weight: 500; color: var(--cream3); }
 
 #w-forecast {
   display: flex;
-  gap: 20px;
-  padding-top: 10px;
+  gap: 2rem;
+  padding-top: 1rem;
   border-top: 1px solid var(--border);
-  margin-top: 4px;
+  margin-top: 0.4rem;
 }
-.fc-day { display: flex; flex-direction: column; align-items: center; gap: 3px; }
-.fc-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; color: var(--cream3); text-transform: uppercase; }
-.fc-icon { font-size: 22px; line-height: 1; }
-.fc-range { font-size: 12px; font-weight: 500; color: var(--cream3); white-space: nowrap; }
+.fc-day { display: flex; flex-direction: column; align-items: center; gap: 0.3rem; }
+.fc-label { font-size: 1rem; font-weight: 700; letter-spacing: 0.15rem; color: var(--cream3); text-transform: uppercase; }
+.fc-icon { font-size: 2.2rem; line-height: 1; }
+.fc-range { font-size: 1.2rem; font-weight: 500; color: var(--cream3); white-space: nowrap; }
 
 /* ── TODAY ─────────────────────────────────────────── */
 #today-section {
-  height: 540px;
+  height: 54rem;
   flex-shrink: 0;
   border-bottom: 1px solid var(--border);
-  padding: 18px 28px 20px;
+  padding: 1.8rem 2.8rem 2rem;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 1.4rem;
 }
 
 .eyebrow {
-  font-size: 12px;
+  font-size: 1.2rem;
   font-weight: 700;
-  letter-spacing: 3.5px;
+  letter-spacing: 0.35rem;
   color: var(--cream2);
   text-transform: uppercase;
   flex-shrink: 0;
@@ -144,7 +145,7 @@ html, body {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
-  gap: 12px;
+  gap: 1.2rem;
 }
 
 .chip {
@@ -152,19 +153,19 @@ html, body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 1rem;
   background: var(--bg2);
   border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 14px 18px;
+  border-radius: 1.2rem;
+  padding: 1.4rem 1.8rem;
   min-width: 0;
 }
 .chip.is-live { border-color: var(--live); }
 
 .chip-badge {
-  font-size: 9px;
+  font-size: 0.9rem;
   font-weight: 700;
-  letter-spacing: 2px;
+  letter-spacing: 0.2rem;
   color: var(--cream3);
   text-transform: uppercase;
   align-self: flex-start;
@@ -183,18 +184,18 @@ html, body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 0.8rem;
   flex: 1;
   min-width: 0;
 }
 .chip-team img {
-  width: 88px; height: 58px;
+  width: 8.8rem; height: 5.8rem;
   object-fit: cover;
-  border-radius: 6px;
+  border-radius: 0.6rem;
   border: 1px solid var(--img-border);
 }
 .chip-name {
-  font-size: 17px;
+  font-size: 1.7rem;
   font-weight: 600;
   color: var(--cream);
   text-align: center;
@@ -203,43 +204,43 @@ html, body {
 
 .chip-score {
   font-family: 'Abril Fatface', serif;
-  font-size: 54px;
+  font-size: 5.4rem;
   color: var(--gold);
-  min-width: 110px;
+  min-width: 11rem;
   text-align: center;
   flex-shrink: 0;
   line-height: 1;
 }
 .chip-score.vs {
   font-family: 'DM Sans', sans-serif;
-  font-size: 13px;
+  font-size: 1.3rem;
   font-weight: 400;
   color: var(--cream3);
-  letter-spacing: 1px;
+  letter-spacing: 0.1rem;
 }
 .chip-time {
   font-family: 'Abril Fatface', serif;
-  font-size: 34px;
+  font-size: 3.4rem;
   color: var(--gold);
   line-height: 1;
   display: block;
 }
 .chip-ampm {
-  font-size: 13px;
+  font-size: 1.3rem;
   color: var(--cream3);
-  letter-spacing: 1px;
+  letter-spacing: 0.1rem;
   display: block;
 }
 
 /* ── GROUPS ─────────────────────────────────────────── */
 #groups-section {
-  height: 280px;
+  height: 28rem;
   flex-shrink: 0;
-  padding: 14px 22px;
+  padding: 1.4rem 2.2rem;
   border-bottom: 1px solid var(--border);
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 1rem;
 }
 
 #groups-header {
@@ -249,9 +250,9 @@ html, body {
 }
 
 #group-range {
-  font-size: 10px;
+  font-size: 1rem;
   font-weight: 600;
-  letter-spacing: 2px;
+  letter-spacing: 0.2rem;
   color: var(--cream3);
   text-transform: uppercase;
 }
@@ -260,7 +261,7 @@ html, body {
   flex: 1;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
+  gap: 2.8rem;
   transition: opacity 0.4s ease;
 }
 
@@ -269,17 +270,17 @@ html, body {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
-  padding: 8px;
+  padding: 0.8rem;
   position: relative;
   background:
-    linear-gradient(var(--cream3),var(--cream3)) 0 0 / 14px 1.5px no-repeat,
-    linear-gradient(var(--cream3),var(--cream3)) 0 0 / 1.5px 14px no-repeat,
-    linear-gradient(var(--cream3),var(--cream3)) 100% 0 / 14px 1.5px no-repeat,
-    linear-gradient(var(--cream3),var(--cream3)) 100% 0 / 1.5px 14px no-repeat,
-    linear-gradient(var(--cream3),var(--cream3)) 0 100% / 14px 1.5px no-repeat,
-    linear-gradient(var(--cream3),var(--cream3)) 0 100% / 1.5px 14px no-repeat,
-    linear-gradient(var(--cream3),var(--cream3)) 100% 100% / 14px 1.5px no-repeat,
-    linear-gradient(var(--cream3),var(--cream3)) 100% 100% / 1.5px 14px no-repeat,
+    linear-gradient(var(--cream3),var(--cream3)) 0 0 / 1.4rem 1.5px no-repeat,
+    linear-gradient(var(--cream3),var(--cream3)) 0 0 / 1.5px 1.4rem no-repeat,
+    linear-gradient(var(--cream3),var(--cream3)) 100% 0 / 1.4rem 1.5px no-repeat,
+    linear-gradient(var(--cream3),var(--cream3)) 100% 0 / 1.5px 1.4rem no-repeat,
+    linear-gradient(var(--cream3),var(--cream3)) 0 100% / 1.4rem 1.5px no-repeat,
+    linear-gradient(var(--cream3),var(--cream3)) 0 100% / 1.5px 1.4rem no-repeat,
+    linear-gradient(var(--cream3),var(--cream3)) 100% 100% / 1.4rem 1.5px no-repeat,
+    linear-gradient(var(--cream3),var(--cream3)) 100% 100% / 1.5px 1.4rem no-repeat,
     transparent;
 }
 
@@ -291,7 +292,7 @@ html, body {
   align-items: center;
   justify-content: center;
   font-family: 'Abril Fatface', serif;
-  font-size: 96px;
+  font-size: 9.6rem;
   color: var(--cream);
   opacity: 0.08;
   pointer-events: none;
@@ -303,7 +304,7 @@ html, body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 0.4rem;
   z-index: 1;
 }
 .gc-team.tl { align-self: start; justify-self: start; }
@@ -311,22 +312,22 @@ html, body {
 .gc-team.bl { align-self: end;   justify-self: start; }
 .gc-team.br { align-self: end;   justify-self: end; }
 .gc-flag {
-  width: 70px; height: 70px;
+  width: 7rem; height: 7rem;
   border-radius: 50%;
   object-fit: cover;
   border: 1px solid var(--img-border);
 }
-.gc-team.r1 .gc-flag { box-shadow: 0 0 0 3px var(--gold-dim); }
+.gc-team.r1 .gc-flag { box-shadow: 0 0 0 0.3rem var(--gold-dim); }
 
 .gc-pts {
   font-family: 'Abril Fatface', serif;
-  font-size: 24px;
+  font-size: 2.4rem;
   color: var(--gold);
   line-height: 1;
 }
 .gc-pts.zero {
   font-family: 'DM Sans', sans-serif;
-  font-size: 16px;
+  font-size: 1.6rem;
   font-weight: 300;
   color: var(--cream3);
 }
@@ -336,34 +337,34 @@ html, body {
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding: 14px 28px 16px;
+  padding: 1.4rem 2.8rem 1.6rem;
   overflow: hidden;
-  gap: 10px;
+  gap: 1rem;
 }
 
 /* Featured next match */
 #next-match {
   background: var(--bg2);
   border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 14px 20px;
+  border-radius: 0.8rem;
+  padding: 1.4rem 2rem;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 0.8rem;
   flex-shrink: 0;
   position: relative;
   overflow: hidden;
-  min-height: 110px;
+  min-height: 11rem;
 }
 
 .nm-slide {
   position: absolute;
-  inset: 14px 20px;
+  inset: 1.4rem 2rem;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 0.8rem;
   opacity: 0;
-  transform: translateY(12px);
+  transform: translateY(1.2rem);
   transition: opacity 0.35s ease, transform 0.35s ease;
 }
 .nm-slide.visible {
@@ -372,36 +373,36 @@ html, body {
 }
 .nm-slide.out {
   opacity: 0;
-  transform: translateY(-12px);
+  transform: translateY(-1.2rem);
 }
 
 .nm-meta {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 1rem;
 }
 .nm-label {
-  font-size: 8px;
+  font-size: 0.8rem;
   font-weight: 700;
-  letter-spacing: 3px;
+  letter-spacing: 0.3rem;
   color: var(--cream3);
   text-transform: uppercase;
 }
 .nm-date {
-  font-size: 9px;
+  font-size: 0.9rem;
   font-weight: 600;
-  letter-spacing: 2px;
+  letter-spacing: 0.2rem;
   color: var(--cream3);
   text-transform: uppercase;
 }
 .nm-badge {
-  font-size: 8px;
+  font-size: 0.8rem;
   font-weight: 700;
-  letter-spacing: 2px;
+  letter-spacing: 0.2rem;
   color: var(--gold-dim);
   border: 1px solid var(--gold-dim);
-  padding: 1px 6px;
-  border-radius: 3px;
+  padding: 0.1rem 0.6rem;
+  border-radius: 0.3rem;
 }
 
 .nm-teams {
@@ -409,16 +410,16 @@ html, body {
   align-items: center;
   gap: 0;
 }
-.nm-team { display: flex; align-items: center; gap: 10px; flex: 1; }
+.nm-team { display: flex; align-items: center; gap: 1rem; flex: 1; }
 .nm-team.right { flex-direction: row-reverse; }
 .nm-team img {
-  width: 38px; height: 25px;
+  width: 3.8rem; height: 2.5rem;
   object-fit: cover;
-  border-radius: 3px;
+  border-radius: 0.3rem;
   border: 1px solid var(--img-border);
 }
 .nm-name {
-  font-size: 18px;
+  font-size: 1.8rem;
   font-weight: 600;
   color: var(--cream);
   white-space: nowrap;
@@ -426,30 +427,30 @@ html, body {
   text-overflow: ellipsis;
 }
 .nm-center {
-  width: 90px;
+  width: 9rem;
   text-align: center;
   flex-shrink: 0;
 }
 .nm-time {
   font-family: 'Abril Fatface', serif;
-  font-size: 30px;
+  font-size: 3rem;
   color: var(--gold);
   line-height: 1;
 }
 .nm-score {
   font-family: 'Abril Fatface', serif;
-  font-size: 30px;
+  font-size: 3rem;
   color: var(--gold);
   line-height: 1;
 }
 .nm-dots {
   display: flex;
   justify-content: center;
-  gap: 5px;
-  margin-top: 2px;
+  gap: 0.5rem;
+  margin-top: 0.2rem;
 }
 .nm-dot {
-  width: 5px; height: 5px;
+  width: 0.5rem; height: 0.5rem;
   border-radius: 50%;
   background: var(--border);
   transition: background 0.3s;
@@ -460,29 +461,28 @@ html, body {
 #up-list { flex: 1; overflow: hidden; }
 
 .up-day-head {
-  font-size: 13px;
+  font-size: 1.3rem;
   font-weight: 700;
-  letter-spacing: 2px;
+  letter-spacing: 0.2rem;
   color: var(--cream2);
   text-transform: uppercase;
-  padding: 18px 0 6px;
+  padding: 1.8rem 0 0.6rem;
 }
-.up-day-head:first-child { padding-top: 4px; }
+.up-day-head:first-child { padding-top: 0.4rem; }
 
 .up-row {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 10px 4px;
-  /* no border */
+  gap: 1.4rem;
+  padding: 1rem 0.4rem;
 }
 
 .up-badge {
-  font-size: 8px;
+  font-size: 0.8rem;
   font-weight: 700;
-  letter-spacing: 1.5px;
+  letter-spacing: 0.15rem;
   color: var(--cream3);
-  width: 26px;
+  width: 2.6rem;
   text-align: center;
   flex-shrink: 0;
   opacity: 0.6;
@@ -490,8 +490,8 @@ html, body {
 .up-badge.ko {
   color: var(--gold-dim);
   border: 1px solid var(--gold-dim);
-  border-radius: 2px;
-  padding: 1px 4px;
+  border-radius: 0.2rem;
+  padding: 0.1rem 0.4rem;
   width: auto;
   opacity: 1;
 }
@@ -500,58 +500,58 @@ html, body {
   flex: 1;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 1.2rem;
   min-width: 0;
 }
-.up-team { display: flex; align-items: center; gap: 8px; }
+.up-team { display: flex; align-items: center; gap: 0.8rem; }
 .up-team img {
-  width: 28px; height: 28px;
+  width: 2.8rem; height: 2.8rem;
   border-radius: 50%;
   object-fit: cover;
   border: 1px solid var(--img-border);
   flex-shrink: 0;
 }
 .up-tname {
-  font-size: 19px;
+  font-size: 1.9rem;
   font-weight: 500;
   color: var(--cream);
   white-space: nowrap;
 }
 .up-vs {
-  font-size: 11px;
+  font-size: 1.1rem;
   color: var(--cream3);
-  letter-spacing: 1px;
+  letter-spacing: 0.1rem;
 }
 
 .up-right {
   font-family: 'Abril Fatface', serif;
-  font-size: 24px;
+  font-size: 2.4rem;
   color: var(--gold);
-  width: 70px;
+  width: 7rem;
   text-align: right;
   flex-shrink: 0;
   line-height: 1;
 }
 .up-right.time {
   font-family: 'DM Sans', sans-serif;
-  font-size: 17px;
+  font-size: 1.7rem;
   font-weight: 400;
   color: var(--cream3);
-  letter-spacing: 0.5px;
+  letter-spacing: 0.05rem;
 }
 
 /* ── THEME TOGGLE ───────────────────────────────────── */
 #theme-btn {
   position: fixed;
-  bottom: 28px;
-  right: 28px;
-  width: 48px;
-  height: 48px;
+  bottom: 2.8rem;
+  right: 2.8rem;
+  width: 4.8rem;
+  height: 4.8rem;
   border-radius: 50%;
   background: var(--bg2);
   border: 1px solid var(--border);
   color: var(--cream3);
-  font-size: 22px;
+  font-size: 2.2rem;
   display: flex;
   align-items: center;
   justify-content: center;
