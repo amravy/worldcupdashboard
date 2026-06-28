@@ -143,10 +143,32 @@ html, body {
 #today-row {
   flex: 1;
   display: grid;
+  /* columns/rows set dynamically in renderToday() based on match count */
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
   gap: 1.2rem;
 }
+
+/* Fewer matches → larger chips so they fill the section */
+#today-row[data-count="1"] .chip-team img { width: 17rem; height: 11.2rem; }
+#today-row[data-count="1"] .chip-name  { font-size: 3.2rem; }
+#today-row[data-count="1"] .chip-score { font-size: 9.6rem; min-width: 18rem; }
+#today-row[data-count="1"] .chip-time  { font-size: 6.4rem; }
+#today-row[data-count="1"] .chip-ampm  { font-size: 2.2rem; }
+#today-row[data-count="1"] .chip-badge { font-size: 1.4rem; }
+#today-row[data-count="1"] .chip       { gap: 2.4rem; }
+
+#today-row[data-count="2"] .chip-team img { width: 13rem; height: 8.6rem; }
+#today-row[data-count="2"] .chip-name  { font-size: 2.5rem; }
+#today-row[data-count="2"] .chip-score { font-size: 7rem; min-width: 13rem; }
+#today-row[data-count="2"] .chip-time  { font-size: 4.8rem; }
+#today-row[data-count="2"] .chip-ampm  { font-size: 1.7rem; }
+#today-row[data-count="2"] .chip       { gap: 1.8rem; }
+
+#today-row[data-count="3"] .chip-team img { width: 11rem; height: 7.2rem; }
+#today-row[data-count="3"] .chip-name  { font-size: 2.1rem; }
+#today-row[data-count="3"] .chip-score { font-size: 6rem; min-width: 12rem; }
+#today-row[data-count="3"] .chip-time  { font-size: 4rem; }
 
 .chip {
   display: flex;
@@ -843,9 +865,20 @@ function renderToday(){
   const ms=liveGames.filter(m=>mDate(m)===today);
   const row=document.getElementById('today-row');
   if(!ms.length){
-    row.innerHTML=`<div style="grid-column:1/-1;display:flex;align-items:center;justify-content:center;color:var(--cream3);font-size:15px;letter-spacing:1px;">No matches today</div>`;
+    row.removeAttribute('data-count');
+    row.style.gridTemplateColumns='1fr';
+    row.style.gridTemplateRows='1fr';
+    row.innerHTML=`<div style="display:flex;align-items:center;justify-content:center;color:var(--cream3);font-size:15px;letter-spacing:1px;">No matches today</div>`;
     return;
   }
+  // Size the grid to the match count: 1 → full, 2 → side-by-side, 4 → 2×2, etc.
+  const n=ms.length;
+  const COLS={1:1,2:2,3:3,4:2,5:3,6:3,7:4,8:4};
+  const cols=COLS[n]||Math.ceil(Math.sqrt(n));
+  const rows=Math.ceil(n/cols);
+  row.dataset.count=n;
+  row.style.gridTemplateColumns=`repeat(${cols},1fr)`;
+  row.style.gridTemplateRows=`repeat(${rows},1fr)`;
   row.innerHTML=ms.map(m=>{
     const done=m.finished==='TRUE', live=m.time_elapsed==='live';
     const h=TM[m.home_team_id], a=TM[m.away_team_id];
