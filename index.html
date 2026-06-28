@@ -847,7 +847,7 @@ function renderToday(){
     return;
   }
   row.innerHTML=ms.map(m=>{
-    const isG=m.type==='group', done=m.finished==='TRUE', live=m.time_elapsed==='live';
+    const done=m.finished==='TRUE', live=m.time_elapsed==='live';
     const h=TM[m.home_team_id], a=TM[m.away_team_id];
     const grpLabel=m.type==='group'?`Group ${m.group}`:(KO[m.type]||'');
     const badge=live?`<span class="chip-badge live">● LIVE</span>`
@@ -860,26 +860,23 @@ function renderToday(){
       const {num,ampm}=fmtTime(m.local_date, m.stadium_id);
       mid=`<div class="chip-score vs" style="min-width:110px"><span class="chip-time">${num}</span><span class="chip-ampm">${ampm}</span></div>`;
     }
-    if(isG&&h&&a) return `
-      <div class="chip${live?' is-live':''}">
-        ${badge}
-        <div class="chip-teams-row">
-          <div class="chip-team">
-            <img src="https://flagcdn.com/w160/${h.iso.toLowerCase()}.png" onerror="this.style.visibility='hidden'">
-            <span class="chip-name">${h.name}</span>
-          </div>
-          ${mid}
-          <div class="chip-team">
-            <img src="https://flagcdn.com/w160/${a.iso.toLowerCase()}.png" onerror="this.style.visibility='hidden'">
-            <span class="chip-name">${a.name}</span>
-          </div>
-        </div>
-      </div>`;
+    const chipTeam=(t,label)=> t
+      ? `<div class="chip-team">
+            <img src="https://flagcdn.com/w160/${t.iso.toLowerCase()}.png" onerror="this.style.visibility='hidden'">
+            <span class="chip-name">${t.name}</span>
+          </div>`
+      : `<div class="chip-team">
+            <div style="width:8.8rem;height:5.8rem;border-radius:0.6rem;border:1px solid var(--img-border);background:var(--bg3)"></div>
+            <span class="chip-name" style="color:var(--cream3);font-size:1.3rem;line-height:1.3">${label||'TBD'}</span>
+          </div>`;
     return `
       <div class="chip${live?' is-live':''}">
         ${badge}
-        <span style="font-size:15px;color:var(--cream3);text-align:center;">${m.home_team_label||'TBD'} vs ${m.away_team_label||'TBD'}</span>
-        ${mid}
+        <div class="chip-teams-row">
+          ${chipTeam(h,m.home_team_label)}
+          ${mid}
+          ${chipTeam(a,m.away_team_label)}
+        </div>
       </div>`;
   }).join('');
 }
@@ -941,23 +938,20 @@ function showNmSlide(idx){
   if(!items.length){ wrap.innerHTML=''; return; }
 
   const m=items[idx];
-  const isG=m.type==='group', done=m.finished==='TRUE', live=m.time_elapsed==='live';
+  const done=m.finished==='TRUE', live=m.time_elapsed==='live';
   const h=TM[m.home_team_id], a=TM[m.away_team_id];
   const badge=KO[m.type]?`<span class="nm-badge">${KO[m.type]}</span>`:`<span class="nm-badge">GRP ${m.group}</span>`;
   const centerHtml=(done||live)
     ?`<span class="nm-score">${m.home_score}–${m.away_score}</span>`
     :(()=>{const {num,ampm}=fmtTime(m.local_date,m.stadium_id);return `<span class="nm-time">${num}<span style="font-size:1.5rem;color:var(--cream3);margin-left:0.2rem">${ampm}</span></span>`;})();
 
-  let teamsHtml;
-  if(isG&&h&&a){
-    teamsHtml=`
-      <div class="nm-team">${flag(h.iso)}<span class="nm-name">${h.name}</span></div>
+  const nmTeam=(t,label,right)=> t
+    ? `<div class="nm-team${right?' right':''}">${flag(t.iso)}<span class="nm-name">${t.name}</span></div>`
+    : `<div class="nm-team${right?' right':''}"><span class="nm-name" style="color:var(--cream3);font-size:1.5rem">${label||'TBD'}</span></div>`;
+  const teamsHtml=`
+      ${nmTeam(h,m.home_team_label,false)}
       <div class="nm-center">${centerHtml}</div>
-      <div class="nm-team right"><span class="nm-name">${a.name}</span>${flag(a.iso)}</div>`;
-  } else {
-    teamsHtml=`<span style="font-size:14px;color:var(--cream3);">${m.home_team_label||'TBD'} vs ${m.away_team_label||'TBD'}</span>
-      <div class="nm-center">${centerHtml}</div>`;
-  }
+      ${nmTeam(a,m.away_team_label,true)}`;
 
   const dots=items.slice(0,Math.min(items.length,8)).map((_,i)=>
     `<div class="nm-dot${i===idx?' active':''}"></div>`).join('');
@@ -1004,24 +998,22 @@ function renderUpList(){
 
   document.getElementById('up-list').innerHTML=Object.keys(byDay).sort().map(day=>{
     const rows=byDay[day].map(m=>{
-      const isG=m.type==='group', done=m.finished==='TRUE';
+      const done=m.finished==='TRUE';
       const h=TM[m.home_team_id], a=TM[m.away_team_id];
       const ko=KO[m.type];
       const badgeHtml=ko
         ?`<span class="up-badge ko">${ko}</span>`
         :`<span class="up-badge">G${m.group}</span>`;
 
-      let teamsHtml;
-      if(isG&&h&&a){
-        teamsHtml=`
+      const upTeam=(t,label)=> t
+        ? `<div class="up-team"><img src="https://flagcdn.com/w40/${t.iso.toLowerCase()}.png" onerror="this.style.visibility='hidden'"><span class="up-tname">${t.name}</span></div>`
+        : `<div class="up-team"><span class="up-tname" style="color:var(--cream3);font-size:1.4rem">${label||'TBD'}</span></div>`;
+      const teamsHtml=`
           <div class="up-teams">
-            <div class="up-team"><img src="https://flagcdn.com/w40/${h.iso.toLowerCase()}.png" onerror="this.style.visibility='hidden'"><span class="up-tname">${h.name}</span></div>
+            ${upTeam(h,m.home_team_label)}
             <span class="up-vs">vs</span>
-            <div class="up-team"><img src="https://flagcdn.com/w40/${a.iso.toLowerCase()}.png" onerror="this.style.visibility='hidden'"><span class="up-tname">${a.name}</span></div>
+            ${upTeam(a,m.away_team_label)}
           </div>`;
-      } else {
-        teamsHtml=`<div class="up-teams"><span class="up-tname" style="color:var(--cream3);font-size:12px;">${m.home_team_label||'TBD'} vs ${m.away_team_label||'TBD'}</span></div>`;
-      }
 
       const right=done
         ?`<span class="up-right">${m.home_score}–${m.away_score}</span>`
